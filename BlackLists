@@ -1,0 +1,48 @@
+-- Blacklist Script for Roblox Executor
+local blacklist = {
+    7343843380, -- Replace with actual user IDs
+    87654321
+}
+
+local minAccountAge = 111 -- Number of days since account creation to be allowed in the game
+
+-- Function to check if a player is blacklisted
+local function isBlacklisted(player)
+    for _, blacklistedID in ipairs(blacklist) do
+        if player.UserId == blacklistedID then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to check account age
+local function isAccountTooNew(player)
+    return player.AccountAge < minAccountAge
+end
+
+-- Loop through players and handle blacklisted users and new accounts
+local function checkPlayers()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if isBlacklisted(player) then
+            player:Kick("You have been Blacklisted. Contact us at .gg/vertexhub")
+        elseif isAccountTooNew(player) then
+            player:Kick("You have been Blacklisted already or created a new account to avoid being Blacklisted")
+        end
+    end
+end
+
+-- Event to check players when they join
+game.Players.PlayerAdded:Connect(function(player)
+    if isBlacklisted(player) then
+        player:Kick("You have been blacklisted. Contact us at .gg/vertexhub")
+    elseif isAccountTooNew(player) then
+        player:Kick("You have been Blacklisted already or created a new account to avoid being Blacklisted")
+    end
+end)
+
+-- Continuously check for blacklisted players and new accounts
+while true do
+    checkPlayers()
+    wait(5) -- Check every 5 seconds
+end
