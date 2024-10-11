@@ -1,7 +1,7 @@
 -- Blacklist Script for Roblox Executor
 local blacklist = {
     2003022360,
-    7343843380,
+    0000000000,
 }
 
 local minAccountAge = 111 -- Number of days since account creation to be allowed in the game
