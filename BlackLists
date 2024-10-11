@@ -1,2 +1,52 @@
-7343843380,
-2003022360,
+-- Hardcoded blacklist of User IDs
+local blacklist = {
+    7343843380,
+    2003022360,
+    -- Add more User IDs as needed
+}
+
+local minAccountAge = 111 -- Minimum account age in days to be allowed in the game
+
+-- Function to check if a player is blacklisted
+local function isBlacklisted(player)
+    for _, blacklistedID in ipairs(blacklist) do
+        if player.UserId == blacklistedID then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to check if an account is too new
+local function isAccountTooNew(player)
+    return player.AccountAge < minAccountAge
+end
+
+-- Function to handle player checks
+local function handlePlayer(player)
+    -- Check if the player is blacklisted or has a new account
+    if isBlacklisted(player) then
+        player:Kick("You have been blacklisted. Contact us at .gg/vertexhub")
+    elseif isAccountTooNew(player) then
+        player:Kick("Your account is too new to play this game.")
+    end
+end
+
+-- Connect the PlayerAdded event to handle new players
+game.Players.PlayerAdded:Connect(handlePlayer)
+
+-- Function to check existing players when the script starts
+local function checkPlayers()
+    -- Loop through all players currently in the game
+    for _, player in pairs(game.Players:GetPlayers()) do
+        handlePlayer(player) -- Call the function to handle each player
+    end
+end
+
+-- Initial check for players already in the game
+checkPlayers()
+
+-- Continuously check for blacklisted players and new accounts every 5 seconds
+while wait(5) do -- wait(5) is used for clarity
+    checkPlayers() -- Recheck existing players
+end
