@@ -1,0 +1,126 @@
+-- Blacklist Script for Roblox Executor
+local blacklist = {}
+
+-- Fetch the blacklist from the Pastebin link
+local success, response = pcall(function()
+    return game:HttpGet("https://pastebin.com/raw/SuMmwjQ9")
+end)
+
+if success then
+    for id in response:gmatch("%d+") do
+        table.insert(blacklist, tonumber(id))
+    end
+else
+    warn("Failed to fetch blacklist: " .. tostring(response))
+end
+
+local minAccountAge = 7 -- Minimum account age in days
+
+-- Function to check if a player is blacklisted
+local function isBlacklisted(player)
+    for _, blacklistedID in ipairs(blacklist) do
+        if player.UserId == blacklistedID then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to check account age
+local function isAccountTooNew(player)
+    return player.AccountAge < minAccountAge
+end
+
+-- Event to check players when they join
+game.Players.PlayerAdded:Connect(function(player)
+    if isBlacklisted(player) then
+        player:Kick("You have been Blacklisted. Contact us at .gg/vertexhub")
+    elseif isAccountTooNew(player) then
+        player:Kick("You are already Blacklisted, or your account is new")
+    else
+        -- Proceed to redeem the code if the player is not blacklisted or too new
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/DracoSwagBaby/Tha-Bronx-2/refs/heads/main/KeySystem"))()
+    end
+end)
+
+-- Function to check all players continuously
+local function checkPlayers()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if isBlacklisted(player) then
+            player:Kick("You have been Blacklisted. Contact us at .gg/vertexhub")
+        elseif isAccountTooNew(player) then
+            player:Kick("You are already Blacklisted, or your account is new")
+        end
+    end
+end
+
+-- Continuously check for players every 5 seconds
+while true do
+    checkPlayers()
+    wait(5) -- Check every 5 seconds
+end
+-- Blacklist Script for Roblox Executor
+local blacklist = {}
+
+-- Fetch the blacklist from the Pastebin link
+local success, response = pcall(function()
+    return game:HttpGet("https://pastebin.com/raw/SuMmwjQ9")
+end)
+
+if success then
+    for id in response:gmatch("%d+") do
+        table.insert(blacklist, tonumber(id))
+    end
+else
+    warn("Failed to fetch blacklist: " .. tostring(response))
+end
+
+local minAccountAge = 111 -- Minimum account age in days
+
+-- Function to check if a player is blacklisted
+local function isBlacklisted(player)
+    for _, blacklistedID in ipairs(blacklist) do
+        if player.UserId == blacklistedID then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to check account age
+local function isAccountTooNew(player)
+    return player.AccountAge < minAccountAge
+end
+
+-- Event to check players when they join
+game.Players.PlayerAdded:Connect(function(player)
+    if isBlacklisted(player) then
+        player:Kick("You have been blacklisted. Contact us at .gg/vertexhub")
+    elseif isAccountTooNew(player) then
+        player:Kick("You are already blacklisted, or your account is new.")
+    else
+        -- Execute the preloaded KeySystem script if the player is not blacklisted or too new
+        if keySystemScript then
+            keySystemScript() -- Call the preloaded script
+        else
+            warn("KeySystem script is not loaded.")
+        end
+    end
+end)
+
+-- Function to check all players continuously
+local function checkPlayers()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if isBlacklisted(player) then
+            player:Kick("You have been blacklisted. Contact us at .gg/vertexhub")
+        elseif isAccountTooNew(player) then
+            player:Kick("You are already blacklisted, or your account is new.")
+        end
+    end
+end
+
+-- Continuously check for players every 5 seconds
+while true do
+    checkPlayers()
+    wait(5) -- Check every 5 seconds
+end
